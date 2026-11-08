@@ -286,7 +286,7 @@ footer .small { flex-basis: 100%; font-size: 13px; opacity: .85; }
 .f.f-timer { background-image: radial-gradient(130% 100% at 100% 100%, color-mix(in srgb, var(--tint) 16%, transparent), transparent 62%); }
 .f-keep { --tint: #7a86ff; }
 .f.f-keep { background-image: radial-gradient(130% 100% at 100% 100%, color-mix(in srgb, var(--tint) 16%, transparent), transparent 62%); }
-.f-keep::after { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20100'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M170%2078%20a20%2020%200%200%201%202%20-40%20a30%2030%200%200%201%2057%207%20a17%2017%200%200%201%20-1%2033%20z'%20fill='%237a86ff'%20fill-opacity='.14'%20stroke='%237a86ff'%20stroke-width='2.8'%20/%3E%3Cpath%20d='M200%2070%20V44%20M190%2054%20L200%2044%20L210%2054'%20stroke='%237a86ff'%20stroke-width='3.2'%20/%3E%3C/svg%3E"); }
+.f-keep::after { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='-34%200%20300%20100'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M170%2078%20a20%2020%200%200%201%202%20-40%20a30%2030%200%200%201%2057%207%20a17%2017%200%200%201%20-1%2033%20z'%20fill='%237a86ff'%20fill-opacity='.14'%20stroke='%237a86ff'%20stroke-width='2.8'%20/%3E%3Cpath%20d='M200%2070%20V44%20M190%2054%20L200%2044%20L210%2054'%20stroke='%237a86ff'%20stroke-width='3.2'%20/%3E%3C/svg%3E"); }
 
 /* the science of learning */
 .sci { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -1007,6 +1007,10 @@ h1 { font-size: clamp(28px, 8.4vw, 56px); font-size: min(84px, 10.6cqw); }
 .statspic .area { fill: var(--tint); fill-opacity: .22; stroke: none; }
 .statspic .curve { fill: none; stroke: var(--tint); stroke-width: 3.2; stroke-linecap: round; }
 .statspic .pt { fill: #f2a93b; stroke: none; }
+
+/* the cards slide in from the sides as they appear; until they arrive they must not make the page wider than the screen
+   (that widened page is what made phone browsers shift the header). Clipping here keeps the slide-in and fixes the width. */
+.stage-section, .section, .screens { overflow-x: clip; }
 </style>
 
 <header class="top">
