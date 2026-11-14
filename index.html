@@ -220,7 +220,7 @@ h1 em { font-style: normal; color: var(--amber); }
 .closing h2 em { font-style: normal; color: var(--amber); }
 .closing .badge { display: inline-block; margin-top: 10px; }
 
-footer { border-top: 1px solid var(--line); padding-block: 34px 44px; color: var(--muted); font-size: 14px; }
+footer { border-top: 1px solid var(--line); padding-block: 34px 96px; color: var(--muted); font-size: 14px; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px 30px; }
 footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
 footer .small { flex-basis: 100%; font-size: 13px; opacity: .85; }
@@ -1027,6 +1027,19 @@ h1 { font-size: clamp(28px, 8.4vw, 56px); font-size: min(84px, 10.6cqw); }
 /* the cards slide in from the sides as they appear; until they arrive they must not make the page wider than the screen
    (that widened page is what made phone browsers shift the header). Clipping here keeps the slide-in and fixes the width. */
 .stage-section, .section, .screens { overflow-x: clip; }
+
+/* back to top: appears once the page has been scrolled a little, in the bottom right corner */
+.totop { position: fixed; z-index: 25; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+  width: 52px; height: 52px; padding: 0; display: grid; place-items: center; border-radius: 50%; cursor: pointer;
+  border: 1.5px solid #e08a00; background: var(--amber); color: #0d1b3e; box-shadow: 0 10px 24px -8px rgba(160, 90, 0, .55);
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s, filter .2s ease; -webkit-tap-highlight-color: transparent; }
+.totop.show { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease, visibility 0s, filter .2s ease; }
+.totop svg { display: block; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.totop:hover { filter: brightness(1.06); }
+.totop:active { transform: translateY(1px); }
+@media (hover: none) { .totop:focus, .totop:focus-visible { outline: none; } }
+@media (prefers-reduced-motion: reduce) { .totop, .totop.show { transition: none; } }
 </style>
 
 <header class="top">
@@ -1351,6 +1364,30 @@ h1 { font-size: clamp(28px, 8.4vw, 56px); font-size: min(84px, 10.6cqw); }
     </nav>
   </div>
 </footer>
+
+<button type="button" class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg></button>
+
+<script>
+/* back to top button: shown once the page is scrolled more than 300px, hidden again at the top */
+(function () {
+  var b = document.getElementById('totop');
+  if (!b) return;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, on = false, queued = false;
+  function update() {
+    queued = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var now = y > 300;
+    if (now !== on) { on = now; b.classList.toggle('show', on); }
+  }
+  window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+  b.addEventListener('click', function () {
+    if (b.blur) b.blur();
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+})();
+</script>
 
 <script>
 (function () {
